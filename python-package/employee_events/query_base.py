@@ -1,50 +1,69 @@
-# Import any dependencies needed to execute sql queries
-# YOUR CODE HERE
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pandas as pd
+
+from . import QueryMixin
+
 
 # Define a class called QueryBase
 # Use inheritance to add methods
 # for querying the employee_events database.
-# YOUR CODE HERE
+class QueryBase(QueryMixin):
 
     # Create a class attribute called `name`
     # set the attribute to an empty string
-    # YOUR CODE HERE
+    name = ''
+    """Table name """
 
-    # Define a `names` method that receives
-    # no passed arguments
-    # YOUR CODE HERE
-        
-        # Return an empty list
-        # YOUR CODE HERE
+    def names(self) -> list[tuple[str, int]]:
+        """Return Entity Names and IDs
 
+        Returns:
+            List of tuples containing the entity name and ID.
+        """
+        return []
 
-    # Define an `event_counts` method
-    # that receives an `id` argument
-    # This method should return a pandas dataframe
-    # YOUR CODE HERE
+    def event_counts(self, id: int) -> 'pd.DataFrame':
+        """
+        Count the number of positive and negative employee events by date for a
+        given Team or Employee by ID.
 
-        # QUERY 1
-        # Write an SQL query that groups by `event_date`
-        # and sums the number of positive and negative events
-        # Use f-string formatting to set the FROM {table}
-        # to the `name` class attribute
-        # Use f-string formatting to set the name
-        # of id columns used for joining
-        # order by the event_date column
-        # YOUR CODE HERE
-            
-    
+        Args:
+            id: employee or team ID to be queried.
 
-    # Define a `notes` method that receives an id argument
-    # This function should return a pandas dataframe
-    # YOUR CODE HERE
+        Returns:
+            DataFrame containing the event counts for the given ID.
+        """
 
-        # QUERY 2
-        # Write an SQL query that returns `note_date`, and `note`
-        # from the `notes` table
-        # Set the joined table names and id columns
-        # with f-string formatting
-        # so the query returns the notes
-        # for the table name in the `name` class attribute
-        # YOUR CODE HERE
+        return self.pandas_query(f"""\
+SELECT
+  ee.event_date
+  , SUM(ee.positive_events) AS positive_events
+  , SUM(ee.negative_events) AS negative_events
+FROM {self.name}
+JOIN employee_events AS ee USING({self.name}_id)
+WHERE {self.name}.{self.name}_id = {id}
+GROUP BY ee.event_date
+ORDER BY ee.event_date ASC
+""")
 
+    def notes(self, id: int) -> 'pd.DataFrame':
+        """Retrieve all Notes for a given Team or Employee by ID.
+
+        Args:
+            id: employee or team ID to be queried.
+
+        Returns:
+            DataFrame containing the notes for the given ID.
+        """
+
+        return self.pandas_query(f"""\
+SELECT
+  n.note_date
+  , n.note
+FROM notes AS n
+JOIN {self.name} USING({self.name}_id)
+WHERE {self.name}.{self.name}_id = {id}
+ORDER BY n.note_date ASC
+""")

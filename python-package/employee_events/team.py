@@ -1,66 +1,77 @@
-# Import the QueryBase class
-# YOUR CODE HERE
+from typing import TYPE_CHECKING
 
-# Import dependencies for sql execution
-#### YOUR CODE HERE
+if TYPE_CHECKING:
+    import pandas as pd
+
+from . import QueryBase
+
+__all__ = (
+    'Team',
+)
+
 
 # Create a subclass of QueryBase
 # called  `Team`
-#### YOUR CODE HERE
+class Team(QueryBase):
 
     # Set the class attribute `name`
     # to the string "team"
-    #### YOUR CODE HERE
+    name = 'team'
 
+    def names(self) -> list[tuple[str, int]]:
+        """Return Team Names and IDs
 
-    # Define a `names` method
-    # that receives no arguments
-    # This method should return
-    # a list of tuples from an sql execution
-    #### YOUR CODE HERE
-        
-        # Query 5
-        # Write an SQL query that selects
-        # the team_name and team_id columns
-        # from the team table for all teams
-        # in the database
-        #### YOUR CODE HERE
-    
+        Returns:
+            List of tuples containing the team name and ID.
+        """
+        return self.query(
+            f'SELECT team_name, team_id FROM {self.name}'
+            )
 
-    # Define a `username` method
-    # that receives an ID argument
-    # This method should return
-    # a list of tuples from an sql execution
-    #### YOUR CODE HERE
+    def username(self, id: int) -> str:
+        """Return Team Name by ID
 
-        # Query 6
-        # Write an SQL query
-        # that selects the team_name column
-        # Use f-string formatting and a WHERE filter
-        # to only return the team name related to
-        # the ID argument
-        #### YOUR CODE HERE
+        Args:
+            id: team ID to be queried.
 
+        Raises:
+            LookupError: If no team is found with the given ID.
+            LookupError: If multiple teams are found with the given ID.
 
-    # Below is method with an SQL query
-    # This SQL query generates the data needed for
-    # the machine learning model.
-    # Without editing the query, alter this method
-    # so when it is called, a pandas dataframe
-    # is returns containing the execution of
-    # the sql query
-    #### YOUR CODE HERE
-    def model_data(self, id):
+        Returns:
+            Team name as a string.
+        """
+        results = self.query(
+            f'SELECT team_name FROM {self.name} WHERE {self.name}_id = {id}'
+            )
 
-        return f"""
+        match (len(results)):
+            case 0:
+                raise LookupError(f'Team with ID {id} not found')
+            case 1:
+                # unpack first result and join
+                return ' '.join(results[0])
+            case _:
+                raise LookupError(f'Multiple teams ({len(results)}) found with ID {id}')
+
+    def model_data(self, id: int) -> 'pd.DataFrame':
+        """Return Sum of Employee Event Counts in Team by ID
+
+        Args:
+            id: team ID to be queried.
+
+        Returns:
+            DataFrame containing the sum of positive and negative employee events
+            for each employee of the given team ID.
+        """
+        return self.pandas_query(f"""
             SELECT positive_events, negative_events FROM (
-                    SELECT employee_id
-                         , SUM(positive_events) positive_events
-                         , SUM(negative_events) negative_events
-                    FROM {self.name}
-                    JOIN employee_events
-                        USING({self.name}_id)
-                    WHERE {self.name}.{self.name}_id = {id}
-                    GROUP BY employee_id
-                   )
-                """
+                SELECT employee_id
+                       , SUM(positive_events) positive_events
+                       , SUM(negative_events) negative_events
+                FROM {self.name}
+                JOIN employee_events USING({self.name}_id)
+                WHERE {self.name}.{self.name}_id = {id}
+                GROUP BY employee_id
+            )
+            """)
