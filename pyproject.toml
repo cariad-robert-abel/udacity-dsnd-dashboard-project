@@ -1,0 +1,49 @@
+[project]
+name = "udacity-dsnd-dashboard-project"
+description = "Software Engineering for Data Scientists: Data Science Dashboard"
+version = "0.1.0"
+authors = [
+  {name = "Robert ABEL", email = "robert.abel@cariad.technology"},
+]
+maintainers = [
+  {name = "Robert ABEL", email = "robert.abel@cariad.technology"},
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+license-files = [
+  "LICENSE",
+  "LICENSE-Udacity",
+]
+dependencies = [
+  "scikit-learn==1.5.2",
+  "python-fasthtml==0.8.0",
+  "matplotlib==3.9.2",
+  "scipy==1.14.1",
+  "numpy==2.1.2",
+  "pandas==2.2.3",
+  "employee_events @ file:///${PROJECT_ROOT}/python-package",
+]
+requires-python = ">=3.10"
+classifiers = [
+  "License :: Other/Proprietary License",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[dependency-groups]
+lint = [
+  "flake8~=7.3",
+]
+test = [
+  "pytest~=9.0",
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = false

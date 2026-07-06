@@ -1,0 +1,39 @@
+[project]
+name = "employee_events"
+description = "SQL Query API"
+version = "0.1.0"
+authors = [
+  {name = "Robert ABEL", email = "robert.abel@cariad.technology"},
+]
+maintainers = [
+  {name = "Robert ABEL", email = "robert.abel@cariad.technology"},
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+license-files = [
+  "../LICENSE",
+  "../LICENSE-Udacity",
+]
+dependencies = [
+  "pandas==2.2.3",
+]
+requires-python = ">=3.10"
+classifiers = [
+  "License :: Other/Proprietary License",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["employee_events*"]
+
+[tool.setuptools.package-data]
+employee_events = ["employee_events.db"]

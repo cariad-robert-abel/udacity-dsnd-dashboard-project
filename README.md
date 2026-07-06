@@ -1,7 +1,14 @@
+# Software Engineering for Data Scientists
 
-# Software Engineering for Data Scientists 
+This repository contains the project associated with "Deploying a Scalable Machine Learning Pipeline
+in Production" Udacity course. It's a fork of Udacity's [Starter Kit](https://github.com/udacity/dsnd-dashboard-project).
 
-This repository contains starter code for the **Software Engineering for Data Scientists** final project. Please reference your course materials for documentation on this repository's structure and important files. Happy coding!
+This GitHub.com project is located at [cariad-robert-abel/udacity-dsnd-dashboard-project](https://github.com/cariad-robert-abel/udacity-dsnd-dashboard-project).
+
+## Directory Layouts and Notes
+
+Please find the directory layouts and an Entity Relationship Diagram for the
+employee events database below.
 
 ### Repository Structure
 ```
@@ -79,3 +86,9 @@ erDiagram
   employee ||--o{ employee_events : "employee_id"
   notes }o--o{ employee_events : ""
 ```
+
+## License
+
+Original files Copyright 2012–2020 Udacity, Inc.
+My additions to documentation and code are [MIT](https://spdx.org/licenses/MIT).
+See [LICENSE-Udacity](LICENSE-Udacity) resp. [LICENSE](LICENSE).
