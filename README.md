@@ -12,39 +12,38 @@ employee events database below.
 
 ### Repository Structure
 ```
-├── README.md
 ├── assets
-│   ├── model.pkl
-│   └── report.css
-├── env
-├── python-package
-│   ├── employee_events
-│   │   ├── __init__.py
-│   │   ├── employee.py
-│   │   ├── employee_events.db
-│   │   ├── query_base.py
-│   │   ├── sql_execution.py
-│   │   └── team.py
-│   ├── requirements.txt
-│   ├── setup.py
-├── report
-│   ├── base_components
-│   │   ├── __init__.py
-│   │   ├── base_component.py
-│   │   ├── data_table.py
-│   │   ├── dropdown.py
-│   │   ├── matplotlib_viz.py
-│   │   └── radio.py
-│   ├── combined_components
-│   │   ├── __init__.py
-│   │   ├── combined_component.py
-│   │   └── form_group.py
-│   ├── dashboard.py
-│   └── utils.py
-├── requirements.txt
-├── start
-├── tests
-    └── test_employee_events.py
+│   ├── model.pkl                        Pre-Trained Risk Assessment Model
+│   └── report.css                       Cascaded Style Sheet for Report
+├── python-package                       employee_events package
+│   ├── employee_events                  
+│   │   ├── __init__.py                  
+│   │   ├── employee.py                  
+│   │   ├── employee_events.db           
+│   │   ├── query_base.py                
+│   │   ├── sql_execution.py             
+│   │   └── team.py                      
+│   ├── pyproject.toml                   library project metadata
+│   ├── setup.py                         setuptools script
+│   ├── README.md                        library README
+├── report                               Report Dashboard Source Code
+│   ├── base_components                  
+│   │   ├── __init__.py                  
+│   │   ├── base_component.py            
+│   │   ├── data_table.py                
+│   │   ├── dropdown.py                  
+│   │   ├── matplotlib_viz.py            
+│   │   └── radio.py                     
+│   ├── combined_components              
+│   │   ├── __init__.py                  
+│   │   ├── combined_component.py        
+│   │   └── form_group.py                
+│   ├── dashboard.py                     
+│   └── utils.py                         
+├── tests                                pytest test suite
+│   └── test_employee_events.py          
+├── pyproject.toml                       repository project metadata
+├── README.md                            repository README (this file!)
 ```
 
 ### employee_events.db
@@ -86,6 +85,12 @@ erDiagram
   employee ||--o{ employee_events : "employee_id"
   notes }o--o{ employee_events : ""
 ```
+
+## Installation
+
+Install using `pip install [-e] .` from the top-level repository directory.
+The `employee_event` library dependency located in the `python-package` sub-directory will be picked
+up and installed automatically.
 
 ## License
 

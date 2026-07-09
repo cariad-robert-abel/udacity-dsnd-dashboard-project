@@ -40,7 +40,17 @@ erDiagram
     TEXT shift
     TEXT manager_name
   }
+
+  team ||--o{ employee_events : "team_id"
+  employee ||--o{ employee_events : "employee_id"
+  notes }o--o{ employee_events : ""
 ```
+
+## Build / Install
+
+Install using `pip install [-e] .`, which would install the required build tools automatically, or
+specifically build using `python setup.py build sdist` after having installed the build dependencies
+(`setuptools>=61 wheel`) beforehand.
 
 ## License
 
